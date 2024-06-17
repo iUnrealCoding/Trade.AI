@@ -51,7 +51,7 @@ body {
 /* Main content area */
 .main-content {
     width: calc(100% + 250px); /* Adjust width to fill remaining space */
-    margin-left:-250px; /* Ensure content starts after sidebar */
+    margin-left: -250px; /* Ensure content starts after sidebar */
     padding: 20px;
     height: 100vh; /* Full height of viewport */
     overflow-y: auto; /* Enable vertical scrolling if needed */
@@ -123,6 +123,21 @@ body {
     background-color: #444444; /* Darken on hover */
 }
 
+.dashboard .chart-header .timeframes button:focus,
+.dashboard .chart-header .indicators button:focus,
+.sidebar .menu a:focus,
+.sidebar .logout:focus,
+.dashboard .tracking .track-item button:focus,
+.dashboard .chart-header .timeframes button:active,
+.dashboard .chart-header .indicators button:active,
+.sidebar .menu a:active,
+.sidebar .logout:active,
+.dashboard .tracking .track-item button:active  {
+    outline: none;
+    box-shadow: none;
+    background-color: #333333; /* Black background on focus */
+}
+
 .dashboard .tracking {
     display: flex;
     justify-content: space-between;
@@ -163,10 +178,42 @@ body {
     background-color: #444444; /* Darken on hover */
 }
 
+.dashboard .tracking .track-item button:focus,
+.dashboard .tracking .track-item button:active {
+    outline: none;
+    box-shadow: none;
+    background-color: #333333; /* Black background on focus */
+}
+
 /* Additional styles for the graph container */
 .graph-container {
     margin-top: -150px; /* Space between form and graph */
     padding: 20px;
     background-color: #1e1e1e; /* Dark background for the graph */
     border-radius: 10px;
+}
+
+.dashboard .dropdown {
+    background-color: #333333;
+}
+
+.dashboard .dropdown button {
+    background-color: #333333;
+    border: none;
+}
+
+.dashboard .dropdown button:hover {
+    background-color: #444444;
+}
+
+.dashboard .dropdown button:focus {
+    outline: none;
+    box-shadow: none;
+    background-color: #333333; /* Black background on focus */
+}
+
+.dashboard .dropdown button:active {
+    outline: none;
+    box-shadow: none;
+    background-color: #333333; /* Black background on focus */
 }

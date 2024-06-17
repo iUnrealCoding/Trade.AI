@@ -173,13 +173,17 @@ class RunVisPipeline:
                     rangeslider=dict(visible=True),  # Add range slider
                     rangeselector=dict(              # Add range selector
                         buttons=list([
-                            dict(count=1, label='1m', step='minute', stepmode='backward'),
-                            dict(count=5, label='5m', step='minute', stepmode='backward'),
-                            dict(count=15, label='15m', step='minute', stepmode='backward'),
+                            dict(count=1, label='5m', step='minute', stepmode='backward'),
+                            dict(count=5, label='15m', step='minute', stepmode='backward'),
+                            dict(count=15, label='45m', step='minute', stepmode='backward'),
                             dict(count=1, label='1h', step='hour', stepmode='backward'),
                             dict(count=1, label='1d', step='day', stepmode='backward'),
+                            dict(count=1, label='30d', step='day', stepmode='backward'),
                             dict(step='all')
-                        ])
+                            ]),
+                            bgcolor='black',  # Change the background color of the buttons to black
+                            activecolor='darkgrey',  # Change the background color of the active button
+                            font=dict(color='white')  # Change the font color of the buttons to white)
                     )
                 ),
                 yaxis=dict(
@@ -191,18 +195,20 @@ class RunVisPipeline:
                     overlaying='y',
                     side='right',
                     showgrid=False
-                )
+                ),
             )
 
             fig.update_xaxes(
                 rangeslider_visible=True, 
                 rangeselector=dict(
                     buttons=list([
-                        dict(count=15, label="15m", step="minute", stepmode="backward"),
-                        dict(count=45, label="45m", step="minute", stepmode="backward"),
-                        dict(count=1, label="HTD", step="hour", stepmode="todate"),
-                        dict(count=3, label="3h", step="hour", stepmode="backward"),
-                        dict(step="all")
+                        dict(count=1, label='5m', step='minute', stepmode='backward'),
+                        dict(count=5, label='15m', step='minute', stepmode='backward'),
+                        dict(count=15, label='45m', step='minute', stepmode='backward'),
+                        dict(count=1, label='1h', step='hour', stepmode='backward'),
+                        dict(count=1, label='1d', step='day', stepmode='backward'),
+                        dict(count=1, label='30d', step='day', stepmode='backward'),
+                        dict(step='all')
                     ])
                 )
             )

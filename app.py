@@ -78,7 +78,7 @@ def toggle_refresh():
         scheduler.remove_all_jobs()
     return jsonify({'status': 'success', 'refresh_task_enabled': refresh_task_enabled})
 
-@app.route('/updateplot', methods=['POST'])
+@app.route('/update_plot', methods=['POST'])
 def update_plot():
     try:
         data = request.json
