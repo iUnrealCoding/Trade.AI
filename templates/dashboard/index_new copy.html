@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar Column -->
+            <div class="col-md-4">
+                <div class="sidebar">
+                    <div class="logo mb-3">TRADE.AI</div>
+                    <div class="menu mb-3">
+                        <a href="#">Dashboard</a>
+                        <a href="#">Portfolio</a>
+                        <a href="#">Strategies</a>
+                        <a href="#">Watchlist</a>
+                        <a href="#">Reports</a>
+                        <a href="#">Profile</a>
+                        <a href="#">Helpbot</a>
+                    </div>
+                    <button class="btn btn-danger logout">Logout</button>
+                </div>
+            </div>
+            <!-- Main Content Column -->
+            <div class="col-md-8">
+                <div class="main-content">
+                    <div class="header mb-4">
+                        <div class="title">STOCK DATA PROCESSING</div>
+                        <div class="date">Updated on 13:53:25 23-10-2024</div>
+                        <div class="user-info">
+                            <img src="user-avatar.png" alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px;">
+                            <span class="ms-2">Nitin Yadav</span>
+                        </div>
+                    </div>
+                    <div class="dashboard">
+                        <div class="chart-container mb-4">
+                            <div class="chart-header mb-3">
+                                <div class="timeframes">
+                                    <button class="btn btn-outline-primary">1m</button>
+                                    <button class="btn btn-outline-primary">30m</button>
+                                    <button class="btn btn-outline-primary">1h</button>
+                                    <button class="btn btn-outline-primary">1d</button>
+                                </div>
+                                <div class="indicators ms-3">
+                                    <button class="btn btn-outline-secondary">Master's Strategy</button>
+                                    <button class="btn btn-outline-secondary">BreakOut</button>
+                                    <button class="btn btn-outline-secondary">...</button>
+                                </div>
+                            </div>
+                            <form id="stock-form">
+                                <div class="tracking">
+                                    <div class="track-item mb-3"> <!-- Item 1 -->
+                                        <label for="ticker" class="form-label">Ticker Symbol:</label>
+                                        <input type="text" class="form-control" id="ticker" name="ticker" placeholder="Enter ticker symbol" value="AAPL" required>
+                                    </div>
+                                    <div class="track-item mb-3"> <!-- Item 2 -->
+                                        <label for="period" class="form-label">Period:</label>
+                                        <input type="text" class="form-control" id="period" name="period" placeholder="Enter period" value="3mo" required>
+                                    </div>
+                                    <div class="track-item mb-3"> <!-- Item 3 -->
+                                        <label for="interval" class="form-label">Interval:</label>
+                                        <input type="text" class="form-control" id="interval" name="interval" placeholder="Enter interval" value="1h" required>
+                                        <button type="submit" class="btn btn-primary ms-2" id="submitBtn">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div id="graph-container" class="mt-4">
+                                <!-- Graph will be dynamically inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript code -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script>
+        // Define the displayGraph function first
+        function displayGraph(graphUrl) {
+            // Remove existing graph if any
+            const existingGraph = document.getElementById('generated-graph');
+            if (existingGraph) {
+                existingGraph.remove();
+            }
+    
+            // Create a new iframe element to display the graph
+            const graphContainer = document.getElementById('graph-container');
+            const iframe = document.createElement('iframe');
+            iframe.id = 'generated-graph';
+            iframe.src = graphUrl;
+            iframe.style.width = '100%';
+            iframe.style.height = '500px'; // Adjust height as needed
+            graphContainer.appendChild(iframe);
+        }
+    
+        // Add event listener to form submission
+        document.getElementById('stock-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            const formData = new FormData(event.target);
+    
+            // Send POST request to server
+            try {
+                const response = await fetch('/process', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(Object.fromEntries(formData)) // Convert FormData to JSON object
+                });
+    
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+    
+                const data = await response.json();
+                // Assuming 'data' contains the URL of the generated graph
+                displayGraph(data.graphUrl); // Pass the URL to the displayGraph function
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        });
+    </script>
+</body>
+</html>

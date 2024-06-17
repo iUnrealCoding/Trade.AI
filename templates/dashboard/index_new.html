@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="sidebar">
+        <div class="logo">TRADE.AI</div>
+        <div class="menu">
+            <a href="#">Dashboard</a>
+            <a href="#">Portfolio</a>
+            <a href="#">Strategies</a>
+            <a href="#">Watchlist</a>
+            <a href="#">Reports</a>
+            <a href="#">Profile</a>
+            <a href="#">Helpbot</a>
+        </div>
+        <button class="logout">Logout</button>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <div class="title">Dashboard</div>
+            <div class="date">Updated on 13:53:25 23-10-2024</div>
+            <div class="user-info">
+                <img src="user-avatar.png" alt="User Avatar">
+                <span>Nitin Yadav</span>
+            </div>
+        </div>
+        <div class="dashboard">
+            <div class="chart-container">
+                <div class="chart-header">
+                    <div class="timeframes">
+                        <button>1m</button>
+                        <button>30m</button>
+                        <button>1h</button>
+                        <button>1d</button>
+                    </div>
+                    <div class="indicators">
+                        <button>Master's Strategy</button>
+                        <button>BreakOut</button>
+                        <button>...</button>
+                    </div>
+                </div>
+                <div id="chart"></div>
+            </div>
+            <div class="tracking">
+                <div class="track-item"> <!-- Item 1 -->
+                    <input type="text" placeholder="Enter ticker symbol" value="AAPL">
+                </div>
+                <div class="track-item"> <!-- Item 2 -->
+                    <input type="text" placeholder="Enter period" value="3mo">
+                </div>
+                <div class="track-item"> <!-- Item 3 -->
+                    <input type="text" placeholder="Enter interval" value="1h">
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>

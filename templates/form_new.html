@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles_form.css') }}">
+    <title>Financial Indicator Prediction</title>
+</head>
+<body>
+    <div class="col-md-4">
+        <div class="sidebar">
+            <div class="logo mb-3">TRADE.AI</div>
+            <div class="menu mb-3">
+                <a href="/">Master's Strategy</a>
+                <a href="/form">Financial Predictor</a>
+                <a href="#">Portfolio</a>
+                <a href="#">Strategies</a>
+                <a href="#">Watchlist</a>
+                <a href="#">Profile</a>
+                <a href="#">Helpbot</a>
+            </div>
+            <button class="btn btn-danger logout">Logout</button>
+        </div>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <div class="title">Financial Indicator Prediction</div>
+            <div class="user-info">
+                <img src="user-avatar.png" alt="User Avatar">
+                <span class="username">John Doe</span>
+            </div>
+        </div>
+        <div class="dashboard">
+            <div class="form-container">
+                <form action="{{ url_for('predict_datapoint')}}" method="post">
+                    <h1>Financial Indicator Prediction</h1>
+                    <div class="form-group">
+                        <label for="year">Year</label>
+                        <input type="number" id="year" name="year" min="2000" max="2100" value="2023" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="month">Month</label>
+                        <input type="number" id="month" name="month" min="1" max="12" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="day">Day</label>
+                        <input type="number" id="day" name="day" min="1" max="31" value="1" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hour">Hour</label>
+                        <input type="number" id="hour" name="hour" min="0" max="23" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="minute">Minute</label>
+                        <input type="number" id="minute" name="minute" min="0" max="59" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emasignal">EMA Signal</label>
+                        <input type="number" id="emasignal" name="emasignal" min="0" max="1" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ispivot">Is Pivot</label>
+                        <input type="number" id="ispivot" name="ispivot" min="0" max="1" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="choch_pattern_detected">CHOCH Pattern Detected</label>
+                        <input type="number" id="choch_pattern_detected" name="choch_pattern_detected" min="0" max="1" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fibonacci_signal">Fibonacci Signal</label>
+                        <input type="number" id="fibonacci_signal" name="fibonacci_signal" min="0" max="1" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sl">SL</label>
+                        <input type="number" id="sl" name="sl" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tp">TP</label>
+                        <input type="number" id="tp" name="tp" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="minswing">Min Swing</label>
+                        <input type="number" id="minswing" name="minswing" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="maxswing">Max Swing</label>
+                        <input type="number" id="maxswing" name="maxswing" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lbd_detected">LBD Detected</label>
+                        <input type="number" id="lbd_detected" name="lbd_detected" min="0" max="1" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="lbh_detected">LBH Detected</label>
+                        <input type="number" id="lbh_detected" name="lbh_detected" min="0" max="1" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sr_signal">SR Signal</label>
+                        <input type="number" id="sr_signal" name="sr_signal" min="0" max="1" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="isbreakout">Is BreakOut</label>
+                        <input type="number" id="isbreakout" name="isbreakout" min="0" max="1" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="candlestick_signal">Candlestick Signal</label>
+                        <input type="number" id="candlestick_signal" name="candlestick_signal" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="result">Result</label>
+                        <input type="number" id="result" name="result" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="signal1">Signal 1</label>
+                        <input type="number" id="signal1" name="signal1" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="buy_signal">Buy Signal</label>
+                        <input type="number" id="buy_signal" name="buy_signal" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="position">Position</label>
+                        <input type="number" id="position" name="position" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sell_signal">Sell Signal</label>
+                        <input type="number" id="sell_signal" name="sell_signal" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fractal_high">Fractal High</label>
+                        <input type="number" id="fractal_high" name="fractal_high" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fractal_low">Fractal Low</label>
+                        <input type="number" id="fractal_low" name="fractal_low" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="buy_signal1">Buy Signal 1</label>
+                        <input type="number" id="buy_signal1" name="buy_signal1" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="sell_signal1">Sell Signal 1</label>
+                        <input type="number" id="sell_signal1" name="sell_signal1" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fractals_high">Fractals High</label>
+                        <input type="number" id="fractals_high" name="fractals_high" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fractals_low">Fractals Low</label>
+                        <input type="number" id="fractals_low" name="fractals_low" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="vsignal">V Signal</label>
+                        <input type="number" id="vsignal" name="vsignal" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="pricesignal">Price Signal</label>
+                        <input type="number" id="pricesignal" name="pricesignal" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="totsignal">Tot Signal</label>
+                        <input type="number" id="totsignal" name="totsignal" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="dbar">D Bar</label>
+                        <input type="number" id="dbar" name="dbar" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="tbar">T Bar</label>
+                        <input type="number" id="tbar" name="tbar" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="fractallow">Fractal Low</label>
+                        <input type="number" id="fractallow" name="fractallow" min="0" value="0" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="ema_signal">EMA Signal</label>
+                        <input type="number" id="ema_signal" name="ema_signal" min="0" max="1" value="0" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Predict</button>
+                </form>
+            </div>
+            {% if results is not none %}
+            <div class="result-container">
+                <h2>Prediction Result</h2>
+                <p>Result: {{ results }}</p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,179 @@
+/* Reset and base styles */
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: #121212; /* Dark background color */
+    color: #ffffff; /* White text color */
+    display: flex;
+    height: 100vh; /* Full height of viewport */
+    overflow: hidden; /* Prevent scrolling on body */
+}
+
+/* Sidebar styles */
+.sidebar {
+    width: 250px;
+    background-color: #1e1e1e; /* Dark sidebar background */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%; /* Full height of viewport */
+    flex-shrink: 0; /* Prevent sidebar from shrinking */
+    box-sizing: border-box; /* Include padding in width and height */
+}
+
+.sidebar .logo {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: #ffffff; /* White logo text color */
+}
+
+.sidebar .menu a {
+    display: block;
+    padding: 10px;
+    color: #ffffff;
+    text-decoration: none;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+}
+
+.sidebar .menu a:hover {
+    background-color: #333333; /* Darken on hover */
+}
+
+.sidebar .logout {
+    background-color: #d9534f; /* Logout button color */
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: auto; /* Push to bottom */
+}
+
+/* Main content area */
+.main-content {
+    flex-grow: 1; /* Allow main content to grow and fill remaining space */
+    padding: 20px;
+    height: 100vh; /* Full height of viewport */
+    overflow-y: auto; /* Enable vertical scrolling if needed */
+    display: flex;
+    flex-direction: column;
+    box-sizing: border-box; /* Include padding in width and height */
+}
+
+/* Header styles */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    position: sticky;
+    top: 0;
+    background-color: #1e1e1e; /* Dark header background */
+    padding: 10px 20px;
+    z-index: 1000; /* Ensure it's above other content */
+    box-sizing: border-box; /* Include padding in width and height */
+}
+
+.header .title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.header .user-info {
+    display: flex;
+    align-items: center;
+}
+
+.header .user-info img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.header .user-info .username {
+    font-size: 14px;
+    color: #888888; /* Lighter text color */
+}
+
+/* Form container */
+.form-container {
+    background-color: #1e1e1e; /* Dark form background */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-sizing: border-box; /* Include padding in width and height */
+}
+
+.form-container h1 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #ffffff; /* White label text color */
+}
+
+.form-group input {
+    width: 100%;
+    padding: 10px;
+    background-color: #333333; /* Dark input background */
+    color: #ffffff; /* White text color */
+    border: none;
+    border-radius: 5px;
+    box-sizing: border-box; /* Include padding in width and height */
+}
+
+.form-group input::placeholder {
+    color: #888888; /* Lighter placeholder text color */
+}
+
+.btn-primary {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff; /* Primary button color */
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease; /* Smooth hover transition */
+    box-sizing: border-box; /* Include padding in width and height */
+}
+
+.btn-primary:hover {
+    background-color: #0056b3; /* Darken on hover */
+}
+
+.result-container {
+    background-color: #1e1e1e; /* Dark result container background */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin: 0 auto;
+    box-sizing: border-box; /* Include padding in width and height */
+    margin-bottom: 20px;
+}
+
+.result-container h2 {
+    color: #ffffff; /* White heading text color */
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.result-container p {
+    color: #ffffff; /* White text color */
+    text-align: center;
+    font-size: 18px;
+}

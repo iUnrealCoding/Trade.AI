@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard</title>
+    <!-- Bootstrap CSS link -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <!-- Plotly JS library -->
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar Column -->
+            <div class="col-md-4">
+                <div class="sidebar">
+                    <div class="logo mb-3">TRADE.AI</div>
+                    <div class="menu mb-3">
+                        <a href="/">Master's Strategy</a>
+                        <a href="/form">Financial Predictor</a>
+                        <a href="#">Financial advisor</a>
+                        <a href="#">Strategies</a>
+                        <a href="#">Watchlist</a>
+                        <a href="#">Profile</a>
+                        <a href="#">Helpbot</a>
+                    </div>
+                    <button class="btn btn-danger logout">Logout</button>
+                </div>
+            </div>
+            <!-- Main Content Column -->
+            <div class="col-md-8">
+                <div class="main-content">
+                    <div class="header mb-4 d-flex justify-content-between align-items-center">
+                        <div>
+                            <div class="title">MASTER'S STRATEGY</div>
+                            <div class="date">Updated on 08:53:25 15-06-2024</div>
+                        </div>
+                        <div class="user-info d-flex align-items-center">
+                            <img src="user-avatar.png" alt="User Avatar" class="rounded-circle" style="width: 30px; height: 30px;">
+                            <span class="ms-2">Nitin Yadav</span>
+                        </div>
+                    </div>
+                    <div class="dashboard">
+                        <div class="chart-container mb-4">
+                            <div class="chart-header mb-3 d-flex justify-content-between">
+                                <div class="timeframes">
+                                    <button class="btn btn-outline-primary">1m</button>
+                                    <button class="btn btn-outline-primary">30m</button>
+                                    <button class="btn btn-outline-primary">1h</button>
+                                    <button class="btn btn-outline-primary">1d</button>
+                                </div>
+                                <div class="indicators ms-3">
+                                    <button class="btn btn-outline-secondary">Master's Strategy</button>
+                                    <button class="btn btn-outline-secondary">BreakOut</button>
+                                    <button class="btn btn-outline-secondary">...</button>
+                                </div>
+                            </div>
+                            <form id="stock-form">
+                                <div class="tracking">
+                                    <div class="track-item mb-3">
+                                        <label for="ticker" class="form-label">Ticker Symbol:</label>
+                                        <input type="text" class="form-control" id="ticker" name="ticker" placeholder="Enter ticker symbol" value="AAPL" required>
+                                    </div>
+                                    <div class="track-item mb-3">
+                                        <label for="period" class="form-label">Period:</label>
+                                        <input type="text" class="form-control" id="period" name="period" placeholder="Enter period" value="3mo" required>
+                                    </div>
+                                    <div class="track-item mb-3 d-flex align-items-end">
+                                        <div class="w-100">
+                                            <label for="interval" class="form-label">Interval:</label>
+                                            <input type="text" class="form-control" id="interval" name="interval" placeholder="Enter interval" value="1h" required>
+                                        </div>
+                                        <button type="submit" class="btn btn-primary ms-2" id="submitBtn">Submit</button>
+                                    </div>
+                                </div>
+                            </form>
+                            <div id="graph-container" class="mt-4">
+                                <!-- Graph will be dynamically inserted here -->
+                            </div>
+                            <form id="update-plot-form">
+                                <div class="update-plot">
+                                    <div class="mf-item mb-3">
+                                        <label for="mf" class="form-label">MF:</label>
+                                        <input type="number" step="0.01" class="form-control" id="mf" name="mf" placeholder="Enter MF" required>
+                                    </div>
+                                    <div class="date-item mb-3">
+                                        <label for="x" class="form-label">Start Date (x):</label>
+                                        <input type="datetime-local" class="form-control" id="x" name="x" placeholder="Enter Start Date">
+                                    </div>
+                                    <div class="date-item mb-3">
+                                        <label for="y" class="form-label">End Date (y):</label>
+                                        <input type="datetime-local" class="form-control" id="y" name="y" placeholder="Enter End Date">
+                                    </div>
+                                    <button type="button" class="btn btn-primary" id="comparePlotBtn">Compare Plot</button>
+                                </div>
+                            </form>
+                            <div class="toggle-container mt-4 d-flex align-items-center">
+                                <label class="form-switch me-2">
+                                    <input type="checkbox" id="toggleTaskSwitch">
+                                    <i></i> <span id="toggleTaskLabel">Refresh Task: OFF</span>
+                                </label>
+                                <button type="button" class="btn btn-info" id="toggleTaskBtn">Toggle Task</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript code -->
+    <script>
+        let refreshInterval;
+
+        // Function to update or display graph in an iframe
+        function displayGraph(graphUrl) {
+            // Check if the iframe already exists
+            const existingGraph = document.getElementById('generated-graph');
+            if (existingGraph) {
+                // Update the existing iframe with the new graph URL
+                existingGraph.src = graphUrl;
+            } else {
+                // Create a new iframe element to display the graph
+                const graphContainer = document.getElementById('graph-container');
+                const iframe = document.createElement('iframe');
+                iframe.id = 'generated-graph';
+                iframe.src = graphUrl;
+                iframe.style.width = '100%';
+                iframe.style.height = '500px'; // Adjust height as needed
+                graphContainer.appendChild(iframe);
+            }
+        }
+
+        // Function to toggle the refresh task on backend
+        async function toggleRefresh() {
+            const toggleSwitch = document.getElementById('toggleTaskSwitch');
+            const toggleLabel = document.getElementById('toggleTaskLabel');
+            const toggleBtn = document.getElementById('toggleTaskBtn');
+
+            try {
+                const response = await fetch('/toggle_refresh', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({})
+                });
+
+                if (!response.ok) {
+                    throw new Error('Toggle request failed');
+                }
+
+                const data = await response.json();
+                const refreshTaskEnabled = data.refresh_task_enabled;
+
+                toggleSwitch.checked = refreshTaskEnabled;
+                toggleLabel.innerText = `Refresh Task: ${refreshTaskEnabled ? 'ON' : 'OFF'}`;
+                toggleBtn.innerText = refreshTaskEnabled ? 'Stop Task' : 'Start Task';
+
+                if (refreshTaskEnabled) {
+                    // Start the interval to fetch the latest graph every minute
+                    refreshInterval = setInterval(fetchGraphData, 60000);
+                } else {
+                    // Clear the interval to stop fetching the graph
+                    clearInterval(refreshInterval);
+                }
+            } catch (error) {
+                console.error('Error toggling refresh:', error);
+                alert('Error toggling refresh task');
+            }
+        }
+
+        // Function to fetch and update the graph data
+        async function fetchGraphData() {
+            try {
+                const formData = {
+                    ticker: document.getElementById('ticker').value,
+                    period: document.getElementById('period').value,
+                    interval: document.getElementById('interval').value
+                };
+
+                const response = await fetch('/process', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                displayGraph(data.graphUrl); // Display or update the graph
+            } catch (error) {
+                console.error('Error fetching graph data:', error);
+            }
+        }
+
+        // Add event listener to form submission
+        document.getElementById('stock-form').addEventListener('submit', async function(event) {
+            event.preventDefault();
+            await fetchGraphData();
+        });
+
+        // Add event listener for comparePlotBtn
+        document.getElementById('comparePlotBtn').addEventListener('click', async function() {
+            // Get form data
+            const mf = document.getElementById('mf').value;
+            const startDate = document.getElementById('x').value;
+            const endDate = document.getElementById('y').value;
+
+            // Prepare data to send
+            const formData = {
+                mf: parseFloat(mf),
+                x: startDate || null,  // Use null if no value is provided
+                y: endDate || null     // Use null if no value is provided
+            };
+
+            try {
+                const response = await fetch('/update_plot', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+
+                const data = await response.json();
+                displayGraph(data.graphUrl); // Display or update the graph
+            } catch (error) {
+                console.error('Error updating plot:', error);
+            }
+        });
+
+        // Add event listener for toggling the refresh task
+        document.getElementById('toggleTaskBtn').addEventListener('click', toggleRefresh);
+
+        // Fetch the initial plot data on page load
+        window.addEventListener('load', async function() {
+            try {
+                const response = await fetch('/initial_plot_data');
+                if (!response.ok) {
+                    throw new Error('Failed to fetch initial plot data');
+                }
+
+                const data = await response.json();
+                if (data.graphUrl) {
+                    displayGraph(data.graphUrl); // Display initial graph
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to load initial data');
+            }
+        });
+    </script>
+</body>
+</html>
